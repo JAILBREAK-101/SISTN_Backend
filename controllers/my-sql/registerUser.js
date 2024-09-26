@@ -1,14 +1,14 @@
-const connection = require('../config/db');
-const transporter = require('../config/emailConfig');
+const connection = require('../../config/my-sql/db');
+const transporter = require('../../config/emailConfig');
 
 const registerUser = async (req, res) => {
   const {
-    membershipCategory, surname, first_name, other_name, street_address,
-    city, country, telephone, email1, email2, occupation, work_organization,
-    rank, qualifications, work_experience, payment_type
+    membershipCategory, surname, firstName, otherName, streetAddress, city,
+    country, telephone, email1, email2, occupation, workOrganization, rank, 
+    qualifications, workExperience, paymentType
   } = req.body;
 
-  if (!first_name || !email1) {
+  if (!firstName || !email1) {
     return res.status(400).json({ message: "Required fields are missing" });
   }
 
@@ -20,8 +20,9 @@ const registerUser = async (req, res) => {
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     connection.query(query, [
-      membershipCategory, surname, first_name, other_name, street_address, city, country, telephone,
-      email1, email2, occupation, work_organization, rank, qualifications, work_experience, payment_type
+      membershipCategory, surname, firstName, otherName, streetAddress, city,
+      country, telephone, email1, email2, occupation, workOrganization, rank, 
+      qualifications, workExperience, paymentType
     ], async (err, result) => {
       if (err) {
         console.error('Database insertion error:', err);
@@ -35,7 +36,7 @@ const registerUser = async (req, res) => {
         from: `SISTN <${process.env.EMAIL_USER}>`,
         to: email1,
         subject: "Registration Successful",
-        text: `Dear ${first_name},\n\nThank you for submitting your membership application. Your membership is currently pending. \n\nTo complete your membership, please make payment to the account number below and send proof of payment (EOP) to membership@SISTN.com.\n\nBank Account Details:\nAccount Name: SISTN\nAccount Number: 1234567890\nBank: ABC Bank\n\nYour membership number and further details will be confirmed once payment is verified.\n\nBest regards,\nSISTN Membership Team`,
+        text: `Dear ${firstName},\n\nThank you for submitting your membership application. Your membership is currently pending. \n\nTo complete your membership, please make payment to the account number below and send proof of payment (EOP) to membership@SISTN.com.\n\nBank Account Details:\nAccount Name: SISTN\nAccount Number: 1234567890\nBank: ABC Bank\n\nYour membership number and further details will be confirmed once payment is verified.\n\nBest regards,\nSISTN Membership Team`,
         attachments: [
           { // Include their filled form as a PDF attachment (or use other formats)
             filename: 'membership_details.txt',

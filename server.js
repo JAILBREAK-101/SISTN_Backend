@@ -1,17 +1,20 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const connectDB = require("./config/mongo/db");
 const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
+// Connect to MongoDB
+connectDB();
+
+// Middleware setup
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-// Parse Form requests
-app.use(express.urlencoded({ extended: true })); 
-
-app.use(cors())
-
+// Routes
 app.use("/api/auth", authRoutes);
 
 // Catch-all for invalid routes (404 error)

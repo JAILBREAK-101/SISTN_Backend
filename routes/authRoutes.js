@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerUser } = require("../controllers/registerController");
+const { registerUser } = require("../controllers/mongo/authController");
 
 const router = express.Router();
 
