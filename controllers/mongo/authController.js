@@ -64,7 +64,7 @@ const registerUser = async (req, res) => {
       pdfBuffer = await helpers.createPDF(req.body, "Membership Registration Details");
     } catch (pdfError) {
       console.error("Error generating PDF:", pdfError);
-      await Membership.findByIdAndDelete(savedMembership._id); // Delete saved membership if PDF generation fails
+      // await Membership.findByIdAndDelete(savedMembership._id); // Delete saved membership if PDF generation fails
       return res.status(500).json({ message: "Error generating PDF. Registration rolled back." });
     }
 
@@ -106,13 +106,13 @@ const registerUser = async (req, res) => {
     } catch (emailError) {
       console.error('Error sending email:', emailError);
 
-      // Delete the saved membership if email sending fails
-      try {
-        await Membership.findByIdAndDelete(savedMembership._id);
-        console.log(`Membership ${savedMembership._id} deleted due to email error.`);
-      } catch (deleteError) {
-        console.error('Error deleting membership after email failure:', deleteError);
-      }
+      // // Delete the saved membership if email sending fails
+      // try {
+      //   await Membership.findByIdAndDelete(savedMembership._id);
+      //   console.log(`Membership ${savedMembership._id} deleted due to email error.`);
+      // } catch (deleteError) {
+      //   console.error('Error deleting membership after email failure:', deleteError);
+      // }
 
       return res.status(500).json({ message: "Error sending email. Registration rolled back." });
     }

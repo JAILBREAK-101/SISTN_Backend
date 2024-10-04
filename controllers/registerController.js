@@ -94,14 +94,15 @@ Awaiting proof of payment.
 Regards,
 SISTN Membership Team`,
       attachments: [
-        {   // Pass the user's form as an attachment to the admin
+        {   
+          // Pass the user's form as an attachment to the admin
             filename: 'membership-details.txt',
             content: `Membership Details:\nName: ${first_name} ${surname}\nEmail: ${email1}\nMembership Category: ${membershipCategory}\nTelephone: ${telephone}`
         }
       ]
     });
 
-    res.status(201).json({
+    res.status(201).json({ 
       message: "Registration successful! Please check your email for payment instructions.",
       redirect: "/thank-you"
     });
